@@ -19,6 +19,11 @@ export const site = {
     { label: "GitHub", href: repo },
     { label: "Sponsor", href: sponsorUrl },
   ],
+  // Menu legal di footer. Halamannya perlu dibuat: src/pages/terms.astro dan src/pages/privacy.astro
+  legal: [
+    { label: "Terms of Use", href: "/terms" },
+    { label: "Privacy Policy", href: "/privacy" },
+  ],
 };
 
 export const ext = (href: string) =>
@@ -29,6 +34,7 @@ export const ext = (href: string) =>
 // Isi route gambar di sini (mis. "/images/hero.webp"). Kosong = tampil skeleton.
 export const images = {
   logo: "/images/logo.png", //          42 x 42
+  footerLogo: "/images/riot-logo.png", // logo pemilik di footer
   heroBackground: "/images/background.jpg", // 1860 x 1100 (cover)
   heroScreenshot: "/images/ss-1.png", // 1116 x 700
   shotA: "", //          1116 x 700

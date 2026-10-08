@@ -1,8 +1,38 @@
 ---
 import Icon from "./Icon.astro";
 import { site, images, ext } from "../data/site";
+
+// Panah ↗ untuk link luar, plus GitHub & Sponsor (apa pun href-nya)
+// overlay = melayang di atas halaman (position: fixed), dipakai di hero beranda
+const { overlay = false } = Astro.props;
+
+const arrowed =(l: { href: string; label: string }) =>
+  /^https?:\/\//i.test(l.href) || /^(github|sponsor)$/i.test(l.label.trim());
 ---
-<nav class="grid grid-cols-[1fr_auto_1fr] items-center gap-4 text-paper" aria-label="Main">
+<nav
+  data-nav
+  class:list={[
+    "group/nav z-50 flex items-center justify-between gap-4 text-paper transition-[padding] duration-300 md:grid md:grid-cols-[1fr_auto_1fr]",
+    overlay
+      ? // fixed ke viewport: tidak terpengaruh overflow-hidden / tinggi container induknya.
+        // Padding awal = margin hero + padding nav lama (supaya posisinya sama), mengecil saat di-scroll.
+        "fixed inset-x-0 top-0 px-8 pt-9 sm:px-[3.875rem] sm:pt-[3.875rem] md:pt-[4.375rem] data-[scrolled=true]:pb-2 data-[scrolled=true]:pt-2 md:data-[scrolled=true]:pt-2"
+      : "sticky top-3 md:top-0 md:-my-3 md:py-3",
+  ]}
+  aria-label="Main"
+>
+  <!-- Desktop saja: latar gelap + blur selebar layar, muncul setelah di-scroll, hilang di paling atas.
+       `fixed` (bukan absolute) supaya bisa selebar viewport walau nav ada di dalam container ber-padding.
+       Tingginya mengikuti tinggi nav lewat --nav-h (diisi script di bawah). -->
+  <div
+    aria-hidden="true"
+    class:list={[
+      // overlay: nav sudah fixed selebar layar, jadi latar cukup mengisi kotak nav (ikut padding yang mengecil)
+      overlay ? "absolute inset-0" : "fixed inset-x-0 top-0",
+      "pointer-events-none -z-10 hidden border-b border-white/10 bg-ink/70 opacity-0 backdrop-blur-xl transition-opacity duration-300 md:block md:group-data-[scrolled=true]/nav:opacity-100",
+    ]}
+    style={overlay ? undefined : "height: var(--nav-h, 4.5rem)"}
+  ></div>
   <a href="/" aria-label={site.name} class="block justify-self-start">
     {images.logo ? (
       <img src={images.logo} alt={site.name} height="42" class="block h-[2.625rem] w-auto" />
@@ -10,16 +40,93 @@ import { site, images, ext } from "../data/site";
       <span role="img" aria-label={site.name} class="block size-[2.625rem] rounded-[0.625rem] bg-white/[0.08]"></span>
     )}
   </a>
+
+  <!-- Desktop -->
   <ul class="hidden items-center gap-10 text-lg md:flex xl:gap-14 xl:text-xl">
-    {site.nav.map((l) => <li><a href={l.href} class="transition-colors hover:text-accent" {...ext(l.href)}>{l.label}</a></li>)}
+    {site.nav.map((l) => (
+      <li>
+        <a href={l.href} class="inline-flex items-center gap-1.5 transition-colors hover:text-accent" {...ext(l.href)}>
+          {l.label}
+          {arrowed(l) && (
+            <svg viewBox="0 0 16 16" class="size-[0.8em] fill-none stroke-current stroke-[1.5] opacity-70" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M6.5 3.5h-3v9h9v-3M9 3h4v4M13 3L7.5 8.5" />
+            </svg>
+          )}
+        </a>
+      </li>
+    ))}
   </ul>
-  <div class="flex items-center gap-2 justify-self-end">
+  <div class="hidden justify-self-end md:block">
     <a href="/download" class="btn bg-accent text-ink"><Icon name="download" class="size-5" />Download</a>
-    <details class="relative md:hidden">
-      <summary class="grid size-12 cursor-pointer list-none place-items-center rounded-full bg-white/10" aria-label="Menu"><Icon name="menu" /></summary>
-      <ul class="absolute right-0 top-14 z-20 w-48 rounded-2xl bg-ink/95 p-2 text-lg backdrop-blur">
-        {site.nav.map((l) => <li><a href={l.href} class="block rounded-xl px-4 py-3 hover:bg-white/10" {...ext(l.href)}>{l.label}</a></li>)}
+  </div>
+
+  <!-- Mobile: satu panel di kanan atas (gaya Helium). Tertutup = pil "Wander"; terbuka = panel memanjang ke bawah
+       berisi link + tombol Download. Pembungkus bertinggi tetap supaya layout di bawahnya tidak bergeser. -->
+  <div class="relative h-12 w-28 md:hidden">
+    <details
+      data-menu
+      class="group absolute right-0 top-0 z-30 min-w-full overflow-hidden rounded-3xl bg-white/10 text-paper shadow-lg shadow-black/20 ring-1 ring-white/20 backdrop-blur-2xl backdrop-saturate-150 open:min-w-56 open:bg-white/[0.14]"
+    >
+      <summary
+        class="flex h-12 cursor-pointer list-none items-center justify-end gap-2 px-5 text-lg [&::-webkit-details-marker]:hidden"
+        aria-label="Menu"
+      >
+        Wander
+        <svg
+          viewBox="0 0 16 16"
+          class="size-4 shrink-0 fill-none stroke-current stroke-[1.6] transition-transform group-open:rotate-180"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        ><path d="M3.5 6l4.5 4.5L12.5 6" /></svg>
+      </summary>
+      <ul class="px-2 pb-1 text-right text-lg">
+        {site.nav.map((l) => (
+          <li>
+            <a href={l.href} class="flex items-center justify-end gap-2 rounded-xl px-3 py-3 transition-colors hover:bg-white/10" {...ext(l.href)}>
+              {l.label}
+              {arrowed(l) && (
+                <svg viewBox="0 0 16 16" class="size-3.5 fill-none stroke-current stroke-[1.4]" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M6.5 3.5h-3v9h9v-3M9 3h4v4M13 3L7.5 8.5" />
+                </svg>
+              )}
+            </a>
+          </li>
+        ))}
       </ul>
+      <div class="p-1.5 pt-1">
+        <a href="/download" class="btn w-full justify-center bg-accent text-ink"><Icon name="download" class="size-5" />Download</a>
+      </div>
     </details>
   </div>
 </nav>
+
+<script>
+  // Tandai nav saat halaman sudah di-scroll (dipakai latar blur di desktop) dan sinkronkan tinggi latarnya
+  const nav = document.querySelector<HTMLElement>("[data-nav]");
+  if (nav) {
+    const sync = () => (nav.dataset.scrolled = String(window.scrollY > 8));
+    const size = () => nav.style.setProperty("--nav-h", nav.offsetHeight + "px");
+    sync();
+    size();
+    window.addEventListener("scroll", sync, { passive: true });
+    new ResizeObserver(size).observe(nav, { box: "border-box" }); // padding ikut dihitung
+  }
+</script>
+
+<script>
+  // Tutup menu mobile saat klik di luar, menekan Escape, atau memilih link
+  const menu = document.querySelector<HTMLDetailsElement>("[data-menu]");
+  if (menu) {
+    const close = () => (menu.open = false);
+    document.addEventListener("click", (e) => {
+      if (menu.open && !menu.contains(e.target as Node)) close();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") close();
+    });
+    menu.addEventListener("click", (e) => {
+      if ((e.target as HTMLElement).closest("a")) close();
+    });
+  }
+</script>

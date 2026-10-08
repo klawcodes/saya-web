@@ -1,0 +1,35 @@
+---
+import { site, images, ext } from "../data/site";
+
+const menu = [...site.nav, { label: "Download", href: "/download" }];
+const year = new Date().getFullYear();
+---
+<footer class="mx-auto mt-28 max-w-6xl px-6 pb-16 md:mt-40">
+  <div class="grid gap-14 border-t border-white/10 pt-12 md:grid-cols-[1fr_auto] md:items-end md:gap-16">
+    <!-- Mobile: di bawah menu, rata tengah. Desktop: kiri, logo di atas teks copyright. -->
+    <div class="order-2 flex flex-col items-center gap-5 text-center md:order-1 md:items-start md:text-left">
+      {images.footerLogo && (
+        <img src={images.footerLogo} alt={site.owner} height="48" loading="lazy" class="block h-12 w-auto" />
+      )}
+      <p class="text-sm text-paper/60">© {year} {site.owner}. Released under the MIT license.</p>
+    </div>
+
+    <!-- Mobile: 2 kolom (kiri menu, kanan legal). Desktop: di kanan, juga 2 kolom. -->
+    <div class="order-1 grid grid-cols-2 gap-8 md:order-2 md:gap-24">
+      <nav aria-label="Footer">
+        <ul class="space-y-3 text-paper/60">
+          {menu.map((l) => (
+            <li><a href={l.href} class="transition-colors hover:text-paper" {...ext(l.href)}>{l.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+      <nav aria-label="Legal">
+        <ul class="space-y-3 text-paper/60">
+          {site.legal.map((l) => (
+            <li><a href={l.href} class="transition-colors hover:text-paper">{l.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+  </div>
+</footer>

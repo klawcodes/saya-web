@@ -22,13 +22,15 @@ const jsonLd = {
 };
 ---
 <Base hero jsonLd={jsonLd}>
+  <Nav overlay />
   <section class="mx-3 mt-3 overflow-hidden rounded-[2rem] bg-[#0c0c0c] sm:mx-[1.875rem] sm:mt-[1.875rem] md:rounded-[3.75rem]" aria-labelledby="hero-title">
     <div class="relative isolate">
       <div class="absolute inset-0 -z-10">
         <Media src={images.heroBackground} width={1860} height={1100} eager />
         <div class="absolute inset-0 bg-black/25"></div>
       </div>
-      <div class="px-5 pt-6 sm:px-8 sm:pt-8 md:px-8 md:pt-10"><Nav /></div>
+      <!-- Ruang bekas nav (nav sekarang fixed di luar section ini): pt + tinggi nav lama -->
+      <div class="h-[4.5rem] sm:h-20 md:h-[5.5rem]" aria-hidden="true"></div>
       <div class="px-6 pt-[clamp(5rem,13vw,13rem)] text-center">
         <h1 id="hero-title" class="mx-auto text-[clamp(2.75rem,7vw,6rem)] leading-[0.95] tracking-[-0.06em]">It's just a browser,<br />no gimmick.</h1>
         <p class="mx-auto mt-8 max-w-xl text-lg md:text-xl">Private by default, fast to use, and built to stay out of your way.</p>
@@ -44,11 +46,13 @@ const jsonLd = {
 
   <section class="mx-auto max-w-6xl px-6 pt-28 md:pt-40" id="features">
     <h2 class="max-w-2xl text-3xl leading-tight md:text-5xl">What's inside Saya</h2>
-    <ul class="mt-12 divide-y divide-white/10 border-y border-white/10">
+    <!-- Mobile: 1 kolom. Desktop (md+): 2 kolom. Ikon besar di kiri sejajar judul, deskripsi rata dengan judul. -->
+    <ul class="mt-12 grid gap-x-16 gap-y-12 md:mt-16 md:grid-cols-2 md:gap-y-14">
       {features.map((f) => (
-        <li class="grid gap-3 py-8 md:grid-cols-[19rem_1fr] md:gap-10">
-          <div class="flex items-center gap-3 text-xl"><Icon name={f.icon} class="size-6 shrink-0 text-accent" />{f.title}</div>
-          <p class="max-w-xl text-lg text-paper/70">{f.text}</p>
+        <li class="grid grid-cols-[2.5rem_1fr] items-center gap-x-4 gap-y-2 md:grid-cols-[3rem_1fr] md:gap-x-5">
+          <Icon name={f.icon} class="size-9 shrink-0 text-accent md:size-11" />
+          <h3 class="text-2xl leading-tight md:text-[1.75rem]">{f.title}</h3>
+          <p class="col-start-2 max-w-md text-lg leading-relaxed text-paper/70">{f.text}</p>
         </li>
       ))}
     </ul>
