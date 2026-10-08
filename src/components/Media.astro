@@ -1,0 +1,10 @@
+---
+// Gambar atau skeleton. Ukuran diatur oleh elemen induk; width/height hanya untuk rasio asli.
+interface Props { src?: string; alt?: string; width: number; height: number; eager?: boolean; class?: string }
+const { src, alt = "", width, height, eager = false, class: cls = "" } = Astro.props;
+---
+{src ? (
+  <img src={src} alt={alt} width={width} height={height} loading={eager ? "eager" : "lazy"} decoding="async" class:list={["block h-full w-full object-cover", cls]} />
+) : (
+  <div role="img" aria-label={alt || "Image placeholder"} class:list={["h-full w-full bg-white/[0.08]", cls]}></div>
+)}

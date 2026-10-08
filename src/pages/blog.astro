@@ -1,0 +1,12 @@
+---
+import Base from "../layouts/Base.astro";
+import { site, ext } from "../data/site";
+const releases = `${site.repo}/releases`;
+---
+<Base title="Blog" description="News and release notes for Saya.">
+  <section class="mx-auto max-w-4xl px-6 pt-20">
+    <h1 class="text-4xl md:text-6xl">Blog</h1>
+    <p class="mt-6 max-w-xl text-lg text-paper/70">No posts yet. Until the first one lands, release notes live on GitHub.</p>
+    <a href={releases} class="btn mt-8 bg-paper text-ink" {...ext(releases)}>See release notes</a>
+  </section>
+</Base>

@@ -1,0 +1,50 @@
+---
+import "../styles/global.css";
+import Nav from "../components/Nav.astro";
+import { site, images, ext } from "../data/site";
+
+interface Props { title?: string; description?: string; hero?: boolean; jsonLd?: object }
+const { title, description = site.description, hero = false, jsonLd } = Astro.props;
+const full = title ? `${title} | ${site.name}` : site.title;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const og = images.og ? new URL(images.og, Astro.site).href : null;
+const links = [...site.nav, { label: "Download", href: "/download" }];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{full}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#030303" />
+    <link rel="canonical" href={canonical} />
+    <meta name="color-scheme" content="dark" />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content={site.name} />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={full} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    {og && <meta property="og:image" content={og} />}
+    <meta name="twitter:card" content={og ? "summary_large_image" : "summary"} />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+  </head>
+  <body class="bg-ink font-sans text-paper antialiased">
+    {!hero && <div class="mx-auto max-w-6xl px-6 pt-8"><Nav /></div>}
+    <main><slot /></main>
+    <footer class="mx-auto mt-28 max-w-6xl border-t border-white/10 px-6 py-10 text-paper/60 md:mt-40">
+      <div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+        <p>© {new Date().getFullYear()} {site.owner}. Released under the MIT license.</p>
+        <ul class="flex flex-wrap gap-x-6 gap-y-2">
+          {links.map((l) => <li><a href={l.href} class="transition-colors hover:text-paper" {...ext(l.href)}>{l.label}</a></li>)}
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>
