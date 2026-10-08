@@ -35,7 +35,8 @@ export const ext = (href: string) =>
 export const images = {
   logo: "/images/logo.png", //          42 x 42
   footerLogo: "/images/riot-logo.png", // logo pemilik di footer
-  heroBackground: "/images/background.jpg", // 1860 x 1100 (cover)
+  heroBackground: "/images/background.jpg",
+  ctaBackground: "/images/background-2.jpg", // hero kecil sebelum footer
   heroScreenshot: "/images/ss-1.png", // 1116 x 700
   shotA: "", //          1116 x 700
   shotB: "", //          1116 x 700

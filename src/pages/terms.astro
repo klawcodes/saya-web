@@ -1,0 +1,103 @@
+---
+import Base from "../layouts/Base.astro";
+import { site, ext } from "../data/site";
+
+const updated = "8 October 2026";
+const issues = `${site.repo}/issues`;
+const license = `${site.repo}/blob/main/LICENSE`;
+
+const h2 = "mt-14 text-2xl md:text-3xl";
+const p = "mt-4 max-w-2xl text-lg leading-relaxed text-paper/70";
+const ul = "mt-4 max-w-2xl list-disc space-y-2 pl-6 text-lg leading-relaxed text-paper/70 marker:text-paper/30";
+const link = "text-paper underline decoration-white/30 underline-offset-4 transition-colors hover:decoration-paper";
+---
+<Base title="Terms of Use" description="The rules for using Saya and this website.">
+  <section class="mx-auto max-w-4xl px-6 pt-20">
+    <h1 class="text-4xl md:text-6xl">Terms of Use</h1>
+    <p class="mt-4 text-paper/50">Last updated {updated}</p>
+    <p class={p}>
+      These terms apply to the {site.name} browser and to this website. By downloading, installing or using
+      {site.name}, you agree to them. If you do not agree, please do not use it.
+    </p>
+
+    <h2 class={h2}>1. Who we are</h2>
+    <p class={p}>
+      {site.name} is developed and maintained by {site.owner} ("we", "us"). You can reach us through
+      <a href={issues} class={link} {...ext(issues)}> GitHub</a>.
+    </p>
+
+    <h2 class={h2}>2. License</h2>
+    <p class={p}>
+      The source code of {site.name} is released under the
+      <a href={license} class={link} {...ext(license)}> MIT license</a>. You may use, copy, modify and distribute it
+      under the conditions of that license, which must be kept with any copy. Chromium, Electron and the other
+      components bundled with {site.name} are under their own licenses, listed on the Credits page inside the browser
+      (<span class="whitespace-nowrap">saya://credits</span>).
+    </p>
+
+    <h2 class={h2}>3. Beta software</h2>
+    <p class={p}>
+      {site.name} is under active development. Current builds are alpha or beta releases and may contain bugs,
+      change without notice, or lose settings. Builds are not code-signed yet, so Windows SmartScreen may show a
+      warning. Verify the checksum from the release notes before choosing "Run anyway". Please keep a backup of
+      anything important, such as bookmarks.
+    </p>
+
+    <h2 class={h2}>4. Using {site.name}</h2>
+    <ul class={ul}>
+      <li>You are responsible for the websites you visit, the files you download and what you do with them.</li>
+      <li>You agree not to use {site.name} to break the law or to harm other people or systems.</li>
+      <li>You may not misrepresent a modified version of {site.name} as the official one.</li>
+      <li>Keep your computer and your Windows account secure. Local data (history, cookies, bookmarks) is readable by anyone with access to your account.</li>
+    </ul>
+
+    <h2 class={h2}>5. Ad blocker and filters</h2>
+    <p class={p}>
+      The built-in ad blocker uses filter lists maintained by third parties. Blocking can occasionally break a
+      website, hide content you wanted, or let some ads through. You can pause it for any site. We do not control
+      those lists and are not responsible for their contents or availability.
+    </p>
+
+    <h2 class={h2}>6. Third-party websites and services</h2>
+    <p class={p}>
+      {site.name} connects you to services we do not own or control: websites, search engines and DNS providers.
+      Your use of them is governed by their own terms and privacy policies. Details of what is sent to them are in our
+      <a href="/privacy" class={link}> Privacy Policy</a>.
+    </p>
+
+    <h2 class={h2}>7. No warranty</h2>
+    <p class={p}>
+      {site.name} is provided "as is" and "as available", without warranty of any kind, whether express or implied,
+      including fitness for a particular purpose, merchantability, security, or that it will be uninterrupted or
+      error-free. Browsing the web always carries risk, and no browser can guarantee protection from every threat.
+    </p>
+
+    <h2 class={h2}>8. Limitation of liability</h2>
+    <p class={p}>
+      To the fullest extent permitted by law, {site.owner} is not liable for any indirect, incidental or
+      consequential damages, or for loss of data, profits or access, arising from the use of or inability to use
+      {site.name}. Nothing in these terms excludes liability that cannot be excluded by law.
+    </p>
+
+    <h2 class={h2}>9. This website</h2>
+    <p class={p}>
+      The content of this website is provided for information about {site.name}. We may change or remove it at any
+      time. Links to other sites are for convenience and do not mean we endorse them.
+    </p>
+
+    <h2 class={h2}>10. Changes</h2>
+    <p class={p}>
+      We may update these terms as {site.name} evolves. The date at the top shows the latest revision. Continuing to
+      use {site.name} after a change means you accept the updated terms.
+    </p>
+
+    <h2 class={h2}>11. Governing law</h2>
+    <p class={p}>These terms are governed by the laws of the Republic of Indonesia. Any dispute should first be raised with us so we can try to resolve it informally.</p>
+
+    <h2 class={h2}>12. Contact</h2>
+    <p class={p}>
+      Questions about these terms:
+      <a href={issues} class={link} {...ext(issues)}> open an issue on GitHub</a>.
+    </p>
+  </section>
+</Base>

@@ -1,0 +1,160 @@
+---
+import Base from "../layouts/Base.astro";
+import { site, ext } from "../data/site";
+
+const updated = "8 October 2026";
+const issues = `${site.repo}/issues`;
+
+const h2 = "mt-14 text-2xl md:text-3xl";
+const p = "mt-4 max-w-2xl text-lg leading-relaxed text-paper/70";
+const ul = "mt-4 max-w-2xl list-disc space-y-2 pl-6 text-lg leading-relaxed text-paper/70 marker:text-paper/30";
+const link = "text-paper underline decoration-white/30 underline-offset-4 transition-colors hover:decoration-paper";
+
+// Data yang meninggalkan komputer pengguna. Disusun dari perilaku nyata Saya (main.js).
+const flows = [
+  {
+    what: "Domain names you visit (DNS)",
+    where: "Cloudflare, Google or Quad9 by default (DNS-over-HTTPS), or your system DNS",
+    why: "To find the address of a website. Without it, nothing loads.",
+    control: "Settings → DNS: pick Secure, Automatic or Off, and use any DNS provider you trust.",
+  },
+  {
+    what: "What you type in the address bar",
+    where: "Your selected search engine (DuckDuckGo by default), only while you are typing a search",
+    why: "To show search suggestions. Things that look like web addresses are never sent.",
+    control: "Turn suggestions off or make them local-only in config.json (suggestions.enabled / suggestions.remote).",
+  },
+  {
+    what: "Your searches and the pages you open",
+    where: "The search engine or website itself",
+    why: "That is how browsing works. Those sites handle your data under their own policies.",
+    control: "Choose another search engine (Ctrl+E), or block trackers with the built-in ad blocker.",
+  },
+  {
+    what: "Ad blocker filter lists",
+    where: "ublockorigin.github.io, easylist.to and raw.githubusercontent.com",
+    why: "To download and refresh the rules that block ads and trackers. Only the lists are requested; none of your browsing is sent.",
+    control: "Edit the list URLs or disable the blocker in config.json (adblock.lists / adblock.enabled).",
+  },
+];
+
+const providers = [
+  ["Cloudflare DNS", "https://www.cloudflare.com/privacypolicy/"],
+  ["Google (DNS and Google Search)", "https://policies.google.com/privacy"],
+  ["Quad9 DNS", "https://quad9.net/privacy/policy/"],
+  ["DuckDuckGo", "https://duckduckgo.com/privacy"],
+  ["Brave Search", "https://search.brave.com/help/privacy-policy"],
+  ["GitHub (downloads and filter lists)", "https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement"],
+];
+---
+<Base title="Privacy Policy" description="What Saya stores on your computer, what leaves it, and who sees it.">
+  <section class="mx-auto max-w-4xl px-6 pt-20">
+    <h1 class="text-4xl md:text-6xl">Privacy Policy</h1>
+    <p class="mt-4 text-paper/50">Last updated {updated}</p>
+    <p class={p}>
+      {site.name} is a web browser that runs on your own computer. This page explains, in plain language, what it
+      keeps on your device, what it sends over the internet, and what we (the maker, {site.owner}) can and cannot see.
+    </p>
+
+    <h2 class={h2}>The short version</h2>
+    <ul class={ul}>
+      <li>We do not run any servers that receive your browsing data. {site.name} has no account, no sign-in and no sync.</li>
+      <li>{site.name} contains no analytics, no telemetry and no crash reporting that sends data to us.</li>
+      <li>Your history, bookmarks, downloads list and settings stay on your computer.</li>
+      <li>Like any browser, it has to talk to other services to work: DNS, your search engine and the sites you open. Those are listed below.</li>
+      <li>We do not sell, rent or share personal data, because we do not have any.</li>
+    </ul>
+
+    <h2 class={h2}>1. Who is responsible</h2>
+    <p class={p}>
+      {site.owner} is the developer of {site.name}. Because the app collects nothing about you, there is no database
+      of user data on our side. For any privacy question, open an issue at
+      <a href={issues} class={link} {...ext(issues)}> GitHub</a>.
+    </p>
+
+    <h2 class={h2}>2. What {site.name} stores on your computer</h2>
+    <p class={p}>These files live in the app's data folder inside your Windows user profile. They never leave your computer on their own.</p>
+    <ul class={ul}>
+      <li><strong class="font-normal text-paper">Browsing history</strong>: addresses and titles of pages, capped at 5,000 entries. The oldest entries are removed automatically.</li>
+      <li><strong class="font-normal text-paper">Bookmarks</strong> and the list of recent <strong class="font-normal text-paper">downloads</strong> (names, addresses and file locations; the files themselves are in your Downloads folder).</li>
+      <li><strong class="font-normal text-paper">Open tabs</strong>, window size and position, so your session can be restored next time.</li>
+      <li><strong class="font-normal text-paper">Site permissions</strong> you granted or blocked (microphone, camera, location, clipboard), remembered per site.</li>
+      <li><strong class="font-normal text-paper">Settings</strong>, plus your own ad-blocker rules and the sites where you paused the blocker.</li>
+      <li><strong class="font-normal text-paper">Web data</strong> that websites save through the Chromium engine: cookies, local storage, IndexedDB and cache.</li>
+    </ul>
+    <p class={p}>
+      {site.name} does not store passwords itself. Because this data is not encrypted by the app, anyone who can open your Windows user
+      account can read it. Use a Windows password and disk encryption if others can access your computer.
+    </p>
+
+    <h2 class={h2}>3. What leaves your computer</h2>
+    <p class={p}>Everything below happens directly between your computer and the service named. It does not pass through us.</p>
+    <ul class="mt-6 max-w-3xl divide-y divide-white/10 border-y border-white/10">
+      {flows.map((f) => (
+        <li class="grid gap-2 py-6">
+          <h3 class="text-xl">{f.what}</h3>
+          <p class="text-paper/70"><span class="text-paper/45">Goes to:</span> {f.where}</p>
+          <p class="text-paper/70"><span class="text-paper/45">Why:</span> {f.why}</p>
+          <p class="text-paper/70"><span class="text-paper/45">Your control:</span> {f.control}</p>
+        </li>
+      ))}
+    </ul>
+
+    <h2 class={h2}>4. Browser identity</h2>
+    <p class={p}>
+      To keep websites working properly, {site.name} presents itself to sites as a Chromium-based browser on your
+      operating system (it sends a Chrome-style User-Agent and matching client hints). Websites can therefore see
+      your Windows version and that you use a Chromium-based browser. WebRTC is set to avoid revealing your local network address.
+    </p>
+
+    <h2 class={h2}>5. Permissions</h2>
+    <p class={p}>
+      A website must ask before it can use your microphone, camera, location or clipboard contents, and your choice
+      is remembered for that site only. Notifications are always blocked. You can review or reset a site's
+      permissions from the site-info button in the address bar, or reset all of them from the menu.
+    </p>
+
+    <h2 class={h2}>6. This website</h2>
+    <p class={p}>
+      This website is a static site. It does not use cookies, advertising or analytics scripts from us. Our hosting provider
+      may keep standard server logs (such as IP address, browser type and time of request) for security and reliability.
+      Downloads are served from GitHub, which has its own privacy statement.
+    </p>
+
+    <h2 class={h2}>7. Third parties</h2>
+    <p class={p}>These services receive data when you use the matching feature. Their own policies apply to what they do with it.</p>
+    <ul class={ul}>
+      {providers.map(([name, href]) => (
+        <li><a href={href} class={link} {...ext(href)}>{name}</a></li>
+      ))}
+    </ul>
+
+    <h2 class={h2}>8. Your controls</h2>
+    <ul class={ul}>
+      <li>Clear history from the History page, and cache, cookies and site data from Settings.</li>
+      <li>Turn off history, tab restore or remote suggestions in config.json (history.enabled, restoreTabs, suggestions.remote).</li>
+      <li>Pause the ad blocker for any site from the site-info button or the right-click menu.</li>
+      <li>Uninstalling {site.name} and deleting its data folder removes everything it stored.</li>
+    </ul>
+
+    <h2 class={h2}>9. Your rights</h2>
+    <p class={p}>
+      Depending on where you live (for example under Indonesia's Personal Data Protection Law, the GDPR or the CCPA),
+      you may have the right to access, correct, delete or object to the processing of your personal data. We do not
+      hold personal data about {site.name} users, so there is nothing for us to retrieve or erase. If you believe we
+      hold something about you, contact us and we will look into it.
+    </p>
+
+    <h2 class={h2}>10. Children</h2>
+    <p class={p}>{site.name} is a general-purpose browser and is not directed at children. We do not knowingly collect personal data from anyone, including children.</p>
+
+    <h2 class={h2}>11. Changes to this policy</h2>
+    <p class={p}>If the way {site.name} handles data changes, we will update this page and its date. Significant changes will also be noted in the release notes on GitHub.</p>
+
+    <h2 class={h2}>12. Contact</h2>
+    <p class={p}>
+      Questions or requests about privacy:
+      <a href={issues} class={link} {...ext(issues)}> open an issue on GitHub</a>.
+    </p>
+  </section>
+</Base>
