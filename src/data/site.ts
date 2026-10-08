@@ -1,6 +1,6 @@
 // Semua teks & link yang sering berubah ada di sini.
 const repo = "https://github.com/klawcodes/saya"; // TODO: ganti dengan repo kamu
-const version = "0.3.60-beta";
+const version = "0.3.70-beta";
 const sponsorUrl = "https://github.com/sponsors/klawcodes"; // TODO: ganti
 
 export const site = {
@@ -9,6 +9,7 @@ export const site = {
   description:
     "Saya is a fast, private web browser with a built-in ad blocker. It's just a browser, no gimmick.",
   owner: "RIOT REVENGER",
+  twitter: "@riotrevenger",
   version,
   repo,
   // Ganti dengan link langsung ke file installer kalau sudah ada
@@ -40,7 +41,8 @@ export const images = {
   heroScreenshot: "/images/ss-1.png", // 1116 x 700
   shotA: "", //          1116 x 700
   shotB: "", //          1116 x 700
-  og: "", //             1200 x 630 (opsional, untuk preview link)
+  og: "/images/image-link-twt.png", // 1200 x 630
+  ogAlt: "Saya Browser: a fast, private, open source browser",
 };
 
 export const features = [
