@@ -8,7 +8,7 @@ export const site = {
   title: "Saya Browser",
   description:
     "Saya is a fast, private web browser with a built-in ad blocker. It's just a browser, no gimmick.",
-  owner: "RIOT REVENGER",
+  owner: "Commonly Works",
   twitter: "@riotrevenger",
   version,
   repo,
