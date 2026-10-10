@@ -1,0 +1,65 @@
+---
+// Tombol unduh yang menyesuaikan diri dengan OS pengunjung (dideteksi di browser).
+// Tanpa JavaScript atau OS tidak dikenal, tampil sebagai tombol Windows seperti sebelumnya.
+//   Windows -> ikon Windows 11, langsung mengunduh .exe dari GitHub
+//   Linux   -> ikon Linux, menuju /download (pengguna memilih AppImage / .deb / .tar.gz)
+//   Lainnya -> "Download Saya", menuju /download
+import Icon from "./Icon.astro";
+import { downloads } from "../data/downloads";
+
+interface Props {
+  class?: string;
+}
+const { class: cls = "" } = Astro.props;
+---
+<a
+  href={downloads.windows}
+  class:list={["btn", cls]}
+  data-download
+  data-windows={downloads.windows}
+  data-linux="/download"
+  data-other="/download"
+>
+  <span data-icon="windows" class="inline-flex">
+    <svg viewBox="0 0 24 24" class="size-5" fill="currentColor" aria-hidden="true">
+      <path d="M3 3h8.5v8.5H3zM12.5 3H21v8.5h-8.5zM3 12.5h8.5V21H3zM12.5 12.5H21V21h-8.5z" />
+    </svg>
+  </span>
+  <span data-icon="linux" class="inline-flex" style="display:none">
+    <svg viewBox="0 0 24 24" class="size-5" fill="currentColor" aria-hidden="true">
+      <path fill-rule="evenodd" d="M12 2c-2.4 0-4 2-4 4.6 0 1.2.3 2.2-.4 3.6C6.4 12.5 4.5 15.5 4.5 18c0 1.5.8 2.2 2 2.4.6 1.1 1.7 1.6 3 1.6h5c1.3 0 2.4-.5 3-1.6 1.2-.2 2-.9 2-2.4 0-2.5-1.9-5.5-3.1-7.8-.7-1.4-.4-2.4-.4-3.6C16 4 14.4 2 12 2zM12 11.2c-2 0-3.5 2.2-3.5 4.8 0 2.2 1.4 3.6 3.5 3.6s3.5-1.4 3.5-3.6c0-2.6-1.5-4.8-3.5-4.8zM10.2 6.2a.9.9 0 1 0 0 1.8.9.9 0 0 0 0-1.8zm3.6 0a.9.9 0 1 0 0 1.8.9.9 0 0 0 0-1.8z" />
+    </svg>
+  </span>
+  <span data-icon="other" class="inline-flex" style="display:none"><Icon name="download" class="size-5" /></span>
+  <span data-label>Download for Windows</span>
+</a>
+
+<script>
+  type OS = "windows" | "linux" | "other";
+
+  function detectOS(): OS {
+    const ua = navigator.userAgent;
+    const platform: string = (navigator as any).userAgentData?.platform || navigator.platform || "";
+    if (/android|iphone|ipad|ipod|cros/i.test(ua)) return "other";
+    if (/win/i.test(platform) || /windows/i.test(ua)) return "windows";
+    if (/mac/i.test(platform) || /macintosh|mac os/i.test(ua)) return "other";
+    if (/linux|x11/i.test(platform) || /linux|x11/i.test(ua)) return "linux";
+    return "other";
+  }
+
+  const LABEL: Record<OS, string> = {
+    windows: "Download for Windows",
+    linux: "Download for Linux",
+    other: "Download Saya",
+  };
+
+  const os = detectOS();
+  document.querySelectorAll<HTMLAnchorElement>("[data-download]").forEach((a) => {
+    a.href = a.dataset[os] || a.href;
+    const label = a.querySelector("[data-label]");
+    if (label) label.textContent = LABEL[os];
+    a.querySelectorAll<HTMLElement>("[data-icon]").forEach((el) => {
+      el.style.display = el.dataset.icon === os ? "" : "none";
+    });
+  });
+</script>

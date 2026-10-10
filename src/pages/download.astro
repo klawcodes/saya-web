@@ -2,24 +2,42 @@
 import Base from "../layouts/Base.astro";
 import Icon from "../components/Icon.astro";
 import { site, ext } from "../data/site";
+import { downloads } from "../data/downloads";
 ---
-<Base title="Download" description="Download Saya for Windows. Linux builds are on the way.">
+<Base title="Download" description="Download Saya for Windows and Linux (64-bit).">
   <section class="mx-auto max-w-4xl px-6 pt-20">
     <h1 class="text-4xl md:text-6xl">Download Saya</h1>
-    <p class="mt-4 max-w-xl text-lg text-paper/70">Every release is listed on GitHub together with its checksum.</p>
+    <p class="mt-4 max-w-xl text-lg text-paper/70">
+      Version {site.version}. Every release is also listed on
+      <a href={site.releaseUrl} class="underline underline-offset-4" {...ext(site.releaseUrl)}>GitHub</a> together with its checksum.
+    </p>
     <ul class="mt-12 divide-y divide-white/10 border-y border-white/10">
       <li class="flex flex-col gap-4 py-8 sm:flex-row sm:items-center sm:justify-between">
-        <div><h2 class="text-2xl">Windows</h2><p class="mt-1 text-paper/60">Windows 10 or later, 64-bit. Version {site.version}.</p></div>
-        <a href={site.releaseUrl} class="btn bg-accent text-ink" {...ext(site.releaseUrl)}><Icon name="download" class="size-5" />Download</a>
+        <div><h2 class="text-2xl">Windows</h2><p class="mt-1 text-paper/60">Windows 10 or later, 64-bit. Installer (.exe).</p></div>
+        <a href={downloads.windows} class="btn bg-accent text-ink"><Icon name="download" class="size-5" />Download</a>
       </li>
-      <li class="flex flex-col gap-4 py-8 sm:flex-row sm:items-center sm:justify-between">
-        <div><h2 class="text-2xl">Linux</h2><p class="mt-1 text-paper/60">AppImage and .deb packages are coming soon.</p></div>
-        <span class="btn cursor-not-allowed bg-white/10 text-paper/50" aria-disabled="true">Coming soon</span>
+      <li class="flex flex-col gap-6 py-8">
+        <div class="max-w-xl">
+          <h2 class="text-2xl">Linux</h2>
+          <p class="mt-1 text-paper/60">64-bit (x86_64). Pick the format that suits your distribution.</p>
+          <ul class="mt-3 space-y-1 text-sm text-paper/60">
+            <li><span class="text-paper/80">AppImage</span>: runs on most distributions, no install. Needs libfuse2 on Ubuntu 22.04 and newer.</li>
+            <li><span class="text-paper/80">.deb</span>: Debian, Ubuntu, Linux Mint and similar.</li>
+            <li><span class="text-paper/80">.tar.gz</span>: portable archive for any other distribution.</li>
+          </ul>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <a href={downloads.linux.appImage} class="btn bg-accent text-ink"><Icon name="download" class="size-5" />AppImage</a>
+          <a href={downloads.linux.deb} class="btn bg-white/15 text-paper transition-colors hover:bg-white/25"><Icon name="download" class="size-5" />.deb</a>
+          <a href={downloads.linux.tar} class="btn bg-white/15 text-paper transition-colors hover:bg-white/25"><Icon name="download" class="size-5" />.tar.gz</a>
+        </div>
       </li>
     </ul>
     <h2 class="mt-20 text-2xl">Verify your download</h2>
-    <p class="mt-3 max-w-2xl text-lg text-paper/70">Compare the SHA-256 checksum in the release notes with the one for your file. In PowerShell:</p>
+    <p class="mt-3 max-w-2xl text-lg text-paper/70">Compare the SHA-256 checksum in the release notes with the one for your file. In PowerShell on Windows:</p>
     <pre class="mt-4 overflow-x-auto rounded-2xl bg-white/[0.06] p-5"><code>Get-FileHash .\YOUR-FILE -Algorithm SHA256</code></pre>
+    <p class="mt-6 max-w-2xl text-lg text-paper/70">On Linux:</p>
+    <pre class="mt-4 overflow-x-auto rounded-2xl bg-white/[0.06] p-5"><code>sha256sum YOUR-FILE</code></pre>
     <p class="mt-4 max-w-2xl text-paper/60">The alpha build isn't code-signed yet, so Windows SmartScreen may show a warning. Only choose "Run anyway" if the checksums match.</p>
   </section>
 </Base>

@@ -1,6 +1,6 @@
 // Semua teks & link yang sering berubah ada di sini.
 const repo = "https://github.com/klawcodes/saya"; // TODO: ganti dengan repo kamu
-const version = "0.3.70-beta";
+const version = "0.4.10-beta";
 const sponsorUrl = "https://github.com/sponsors/klawcodes"; // TODO: ganti
 
 export const site = {

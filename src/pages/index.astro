@@ -3,6 +3,7 @@ import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Media from "../components/Media.astro";
 import Icon from "../components/Icon.astro";
+import DownloadButton from "../components/DownloadButton.astro";
 import { site, images, features, ext } from "../data/site";
 
 const shots = [
@@ -15,7 +16,7 @@ const jsonLd = {
   name: site.name,
   description: site.description,
   applicationCategory: "BrowserApplication",
-  operatingSystem: "Windows 10, Windows 11",
+  operatingSystem: "Windows 10, Windows 11, Linux",
   softwareVersion: site.version,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   author: { "@type": "Organization", name: site.owner },
@@ -34,7 +35,7 @@ const jsonLd = {
       <div class="px-6 pt-[clamp(5rem,13vw,13rem)] text-center">
         <h1 id="hero-title" class="mx-auto text-[clamp(2.75rem,7vw,6rem)] leading-[0.95] tracking-[-0.06em]">It's just a browser,<br />no gimmick.</h1>
         <p class="mx-auto mt-8 max-w-xl text-lg md:text-xl">Private by default, fast to use, and built to stay out of your way.</p>
-        <a href={site.releaseUrl} class="btn mt-10 bg-accent text-ink" {...ext(site.releaseUrl)}><Icon name="download" class="size-5" />Download for Windows</a>
+        <DownloadButton class="mt-10 bg-accent text-ink" />
       </div>
       <div class="mx-auto mt-[clamp(3rem,6vw,6rem)] aspect-[1116/540] w-[min(69.75rem,92%)] overflow-hidden rounded-t-xl">
         <div class="aspect-[1320/700]"><Media src={images.heroScreenshot} alt="Saya browsing Wikipedia" width={1320} height={700} eager /></div>
@@ -82,10 +83,10 @@ const jsonLd = {
         <h2 id="cta-title" class="mx-auto max-w-3xl text-[clamp(2.25rem,5.5vw,4.5rem)] leading-[0.95] tracking-[-0.06em]">Ready for a quieter web?</h2>
         <p class="mx-auto mt-6 max-w-xl text-lg md:text-xl">Block the noise, keep your data on your own computer.</p>
         <div class="mt-9 flex flex-wrap items-center justify-center gap-3">
-          <a href={site.releaseUrl} class="btn bg-accent text-ink" {...ext(site.releaseUrl)}><Icon name="download" class="size-5" />Download for Windows</a>
+          <DownloadButton class="bg-accent text-ink" />
           <a href="/download" class="btn bg-white/15 text-paper backdrop-blur-md transition-colors hover:bg-white/25">All downloads</a>
         </div>
-        <p class="mt-6 text-sm text-paper/60">Version {site.version} · Linux is on the way</p>
+        <p class="mt-6 text-sm text-paper/60">Version {site.version} · Windows and Linux</p>
       </div>
       <!-- Gradasi ke warna latar (seperti hero utama) di tepi bawah -->
       <div class="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[clamp(4rem,10vw,8rem)] bg-gradient-to-t from-ink to-transparent" aria-hidden="true"></div>
